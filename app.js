@@ -1,13 +1,15 @@
 console.log("vinculado");
+
 addEventListener("DOMContentLoaded", () => {
  fetchData();
 
 
 }) ;
+
 const fetchData = async () => {
     try {
         const res = await fetch("https://rickandmortyapi.com/api/character");
-        const data = res.json();
+        const data = await res.json();
         pintarCard(data);
 
 
@@ -18,12 +20,12 @@ const fetchData = async () => {
 
     }
 
-    finally {
+    // finally {
 
-        return
+    //     return
 
 
-    }
+    // }
 
 
 }
@@ -31,18 +33,27 @@ const fetchData = async () => {
 
 
 const pintarCard = (data) => {
+    console.log(data);
+    
+    const cardDinamica = document.getElementById("cardDinamica");
 
-    const fragment = createDocumentFragment();
-    const template = document.getElementById("template-cards");
-    const clone = template.cloneNode(true);
+    const fragment = document.createDocumentFragment();
+    const template = document.getElementById("template-cards").content;
+    
+   
 
-    data.forEach(item => {
-        clone.querySelector().textContent = item.
+    data.results.forEach(item => {
+        const clone = template.cloneNode(true);
+        console.log(item);
+        clone.querySelector(".card-title").textContent = item.name;
+        clone.querySelector(".especie").textContent = item.species;
+        clone.querySelector(".text-secondary ").textContent = item.status;
+        clone.querySelector("img").setAttribute("src", item.image);
+
+        fragment.appendChild(clone);
         
     });
 
-
-
-
+    cardDinamica.appendChild(fragment);
 
 }
